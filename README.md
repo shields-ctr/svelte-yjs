@@ -1,3 +1,8 @@
+# Notes
+
+- Here is a default WebSocket server for Yjs; https://github.com/yjs/y-websocket-server
+  - it can be forked and customized to add authentication and the like...
+
 # Boilerplate for single file svelte site
 
 - Vite

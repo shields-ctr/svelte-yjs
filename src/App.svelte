@@ -2,10 +2,9 @@
 	import viteLogo from '/vite.svg';
 	import { setContext } from 'svelte';
 	import Counter from './lib/Counter.svelte';
+	import {state} from './lib/State.svelte';
 
-	const clicks = $state({ count: 4 });
-
-	setContext('clicks', clicks);
+	setContext('state', state);
 </script>
 
 <main class="grid place-content-center h-screen">

@@ -1,14 +1,14 @@
 <script>
 	import { getContext } from 'svelte';
 
-	let clicks = getContext('clicks');
+	let state = getContext('state');
 </script>
 
 <button
 	onclick={() => {
-		clicks.count++;
+		state.count++;
 	}}
 	class="btn"
 >
-	clicks: {clicks.count}
+	state: {state.count}
 </button>

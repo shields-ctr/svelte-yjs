@@ -1,3 +1,6 @@
+# don't commit crude import of synchedStore!
+src/lib/synchrostate/*
+
 # Logs
 logs
 *.log
