@@ -1,4 +1,4 @@
-import * as Y from 'yjs';
+ import * as Y from 'yjs';
 import {WebsocketProvider} from 'y-websocket';
 
 // TODO replace this with a synchrostate tied to the YDoc...
