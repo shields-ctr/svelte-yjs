@@ -19,6 +19,7 @@
 		schema: {
 			dialog: y.array(
 				y.object({
+					id: y.number(),
 					time: y.string().pattern(/^[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{2}$/),
 					nick: y.string(),
 					command: y.string(),
@@ -38,6 +39,9 @@
 	const channels = $state(["#namek", "#earth"]);
 	setContext('channels', channels);
 
+	const commands = ["JOIN", "PRIVMSG", "PART", "QUIT"];
+	setContext('commands', commands);
+	
 	// DEBUG When the application mounts create an example script
 	// (in the future we'll want to load it from local storage, then sync it with the server...)
 	onMount(() => {
@@ -45,22 +49,22 @@
 	});
 	function createScript(script) {
 		script.dialog = [];
-		script.dialog.push(createLine("12:00:00.00", "Operator", "JOIN", "#namek"));
-		script.dialog.push(createLine("12:00:01.00", "Operator", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:02.00", "Raditz", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:03.00", "Raditz", "PRIVMSG", "#earth","aaaahhhh"));
-		script.dialog.push(createLine("12:00:04.00", "Nappa", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:05.00", "Vegeta", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:06.00", "Nappa", "PRIVMSG", "#earth","waaaaaaagh"));
-		script.dialog.push(createLine("12:00:07.00", "Vegeta", "PRIVMSG", "#earth","haaaaaaaah"));
-		script.dialog.push(createLine("12:00:08.00", "Ginyu", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:09.00", "Ginyu", "PRIVMSG", "#earth","aaaaaugh"));
-		script.dialog.push(createLine("12:00:10.00", "Operator", "PRIVMSG", "#earth","On the next exciting episode"));
-		script.dialog.push(createLine("12:00:11.00", "Frieza", "JOIN", "#earth"));
-		script.dialog.push(createLine("12:00:12.00", "Frieza", "PRIVMSG", "#earth","aaaaaaaaaaaaaa"));
+		script.dialog.push(createLine(0,"12:00:00.00", "Operator", "JOIN", "#namek"));
+		script.dialog.push(createLine(1,"12:00:01.00", "Operator", "JOIN", "#earth"));
+		script.dialog.push(createLine(2,"12:00:02.00", "Raditz", "JOIN", "#earth"));
+		script.dialog.push(createLine(3,"12:00:03.00", "Raditz", "PRIVMSG", "#earth","aaaahhhh"));
+		script.dialog.push(createLine(4,"12:00:04.00", "Nappa", "JOIN", "#earth"));
+		script.dialog.push(createLine(5,"12:00:05.00", "Vegeta", "JOIN", "#earth"));
+		script.dialog.push(createLine(6,"12:00:06.00", "Nappa", "PRIVMSG", "#earth","waaaaaaagh"));
+		script.dialog.push(createLine(7,"12:00:07.00", "Vegeta", "PRIVMSG", "#earth","haaaaaaaah"));
+		script.dialog.push(createLine(8,"12:00:08.00", "Ginyu", "JOIN", "#earth"));
+		script.dialog.push(createLine(9,"12:00:09.00", "Ginyu", "PRIVMSG", "#earth","aaaaaugh"));
+		script.dialog.push(createLine(10,"12:00:10.00", "Operator", "PRIVMSG", "#earth","On the next exciting episode"));
+		script.dialog.push(createLine(11,"12:00:11.00", "Frieza", "JOIN", "#earth"));
+		script.dialog.push(createLine(12,"12:00:12.00", "Frieza", "PRIVMSG", "#earth","aaaaaaaaaaaaaa"));
 	}
-	function createLine(time:string, nick:string, command:string, ...args:string[]){
-		return {time, nick, command, args};
+	function createLine(id: number, time:string, nick:string, command:string, ...args:string[]){
+		return {id, time, nick, command, args};
 	}
 
 	
