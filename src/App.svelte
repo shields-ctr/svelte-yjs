@@ -3,8 +3,10 @@
 	import { setContext, onMount } from 'svelte';
 	import {WebsocketProvider} from 'y-websocket';
 	import { y, syncroState } from './lib/syncrostate/index.js';
+	import Dialog from './lib/Dialog.svelte';
 
-	const state = syncroState({
+	// Create the syncrostate and add it to the application context
+	const script = syncroState({
 		sync: async ({doc, synced}) => {
 			const provider = new WebsocketProvider('ws://localhost:1234', 'document', doc);
 			provider.on('status', event => {
@@ -15,7 +17,7 @@
 			})
 		},
 		schema: {
-			script: y.array(
+			dialog: y.array(
 				y.object({
 					time: y.string().pattern(/^[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{2}$/),
 					nick: y.string(),
@@ -24,35 +26,44 @@
 				})
 			)
 		}
-	});	
-
-	onMount(() => {
-		createScript(state);
 	});
+	setContext('script', script);
 
-	function createScript(state) {
-		state.script = [];
-		state.script.push(createDialog("12:00:00.00", "Operator", "JOIN", "#namek"));
-		state.script.push(createDialog("12:00:01.00", "Operator", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:02.00", "Raditz", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:03.00", "Raditz", "PRIVMSG", "#earth","aaaahhhh"));
-		state.script.push(createDialog("12:00:04.00", "Nappa", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:05.00", "Vegeta", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:06.00", "Nappa", "PRIVMSG", "#earth","waaaaaaagh"));
-		state.script.push(createDialog("12:00:07.00", "Vegeta", "PRIVMSG", "#earth","haaaaaaaah"));
-		state.script.push(createDialog("12:00:08.00", "Ginyu", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:09.00", "Ginyu", "PRIVMSG", "#earth","aaaaaugh"));
-		state.script.push(createDialog("12:00:10.00", "Operator", "PRIVMSG", "#earth","On the next exciting episode"));
-		state.script.push(createDialog("12:00:11.00", "Frieza", "JOIN", "#earth"));
-		state.script.push(createDialog("12:00:12.00", "Frieza", "PRIVMSG", "#earth","aaaaaaaaaaaaaa"));
+	// DEBUG initialize bot information with some defaults
+	// eventually we'll want to get this stuff from the server's api.
+	// possibly we might move some things like channels and users from the script- or at least make sure the script contains a subset...
+	const bots = $state(['Raditz', 'Nappa', 'Vegeta', 'Ginyu', 'Frieza']);
+	setContext('bots', bots);
+
+	const channels = $state(["#namek", "#earth"]);
+	setContext('channels', channels);
+
+	// DEBUG When the application mounts create an example script
+	// (in the future we'll want to load it from local storage, then sync it with the server...)
+	onMount(() => {
+		createScript(script);
+	});
+	function createScript(script) {
+		script.dialog = [];
+		script.dialog.push(createLine("12:00:00.00", "Operator", "JOIN", "#namek"));
+		script.dialog.push(createLine("12:00:01.00", "Operator", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:02.00", "Raditz", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:03.00", "Raditz", "PRIVMSG", "#earth","aaaahhhh"));
+		script.dialog.push(createLine("12:00:04.00", "Nappa", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:05.00", "Vegeta", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:06.00", "Nappa", "PRIVMSG", "#earth","waaaaaaagh"));
+		script.dialog.push(createLine("12:00:07.00", "Vegeta", "PRIVMSG", "#earth","haaaaaaaah"));
+		script.dialog.push(createLine("12:00:08.00", "Ginyu", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:09.00", "Ginyu", "PRIVMSG", "#earth","aaaaaugh"));
+		script.dialog.push(createLine("12:00:10.00", "Operator", "PRIVMSG", "#earth","On the next exciting episode"));
+		script.dialog.push(createLine("12:00:11.00", "Frieza", "JOIN", "#earth"));
+		script.dialog.push(createLine("12:00:12.00", "Frieza", "PRIVMSG", "#earth","aaaaaaaaaaaaaa"));
 	}
-
-	function createDialog(time:string, nick:string, command:string, ...args:string[]){
+	function createLine(time:string, nick:string, command:string, ...args:string[]){
 		return {time, nick, command, args};
 	}
 
-	setContext('state', state);
-
+	
 </script>
 
 <main class="grid h-screen">
@@ -62,7 +73,10 @@
 				<img src={viteLogo} class="logo" alt="Vite Logo" />
 			</a>
 		</div>
-		{#if state.getState?.().synced}
+		<Dialog>
+
+		</Dialog>
+		<!-- {#if state.getState?.().synced}
 			{#each state.script as dialog}
 				<p>
 					{dialog.time} {dialog.nick} {dialog.command} 
@@ -71,7 +85,7 @@
 					{/each}
 				</p>
 			{/each}
-		{/if}
+		{/if} -->
 	</div>
 </main>
 
