@@ -4,6 +4,7 @@
 	import {WebsocketProvider} from 'y-websocket';
 	import { y, syncroState } from './lib/syncrostate/index.js';
 	import Dialog from './lib/Dialog.svelte';
+	import Cast from './lib/Cast.svelte';
 
 	// Create the syncrostate and add it to the application context
 	const script = syncroState({
@@ -71,6 +72,7 @@
 </script>
 
 <main class="grid h-screen">
+
 	<div class="card shadow-sm bg-slate-700 p-5 pt-8">
 		<div class="ml-auto mr-auto">
 			<a href="https://vite.dev" target="_blank" rel="noreferrer">
@@ -91,6 +93,10 @@
 			{/each}
 		{/if} -->
 	</div>
+
+	<!-- <div class="card shadow-sm bg-slate-700 p-5 pt-8">
+		<Cast></Cast>
+	</div> -->
 </main>
 
 

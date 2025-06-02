@@ -21,17 +21,6 @@
 
 <h1>Dialog</h1>
 
-<!-- {#if script.getState?.().synced}
-  {#each script.dialog as line}
-    <p>
-      {line.time} {line.nick} {line.command} 
-      {#each line.args as arg}
-        {arg}&nbsp
-      {/each}
-    </p>
-  {/each}
-{/if} -->
-
 <table id="script">
     <thead>
       <tr>
@@ -62,7 +51,8 @@
         {#each users as user}
         <td><input type="radio" 
               name={"user_"+line.id}
-              checked={isSender(user, line)}>
+              checked={isSender(user, line)}
+              onchange={ (_)=> line.nick = user }>
         </td>
         {/each}
         <td>
