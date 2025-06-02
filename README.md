@@ -14,7 +14,15 @@ Also, the library provides schema definition and input validation features. Very
 
 This is meant to be a representative example for our application; in this case a script for IRC chat bots.
 
-First start the Yjs-WebSocket provider which synchronizes named documents;
+<!-- Not sure what's going on but I can't seem to install syncrostate.
+As a temporary hack I cloned the project and copied its distribution...
+``` console
+git clone https://github.com/beynar/syncrostate.git
+copy ./syncrostate/package/dist ./svelte-yjs/src/lib/syncrostate
+npm install
+``` -->
+
+Start the Yjs-WebSocket provider which synchronizes named documents;
 ``` console
 npm run wsp
 ```
@@ -24,7 +32,7 @@ Then spin up the Vite development server which will serve our client apps;
 npm run dev
 ```
 
-Then point a browser at http:localhost:5173 and duplicate the tab.
+Then point a browser at http://localhost:5173 and duplicate the tab.
 Edits in one window will affect the forms in all other windows!
 
 There is no custom glue code, just a plain old svelte application; all the hassle is taken care of with Yjs and Syncrostate.

@@ -2,7 +2,8 @@
 	import viteLogo from '/vite.svg';
 	import { setContext, onMount } from 'svelte';
 	import {WebsocketProvider} from 'y-websocket';
-	import { y, syncroState } from './lib/syncrostate/index.js';
+	import { y, syncroState } from 'syncrostate';
+	// import { y, syncroState } from './lib/syncrostate/index.js';
 	import Dialog from './lib/Dialog.svelte';
 	import Cast from './lib/Cast.svelte';
 

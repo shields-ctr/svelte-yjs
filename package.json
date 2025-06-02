@@ -24,6 +24,7 @@
     "@y/websocket-server": "^0.1.1",
     "daisyui": "^5.0.35",
     "dotenv": "^16.5.0",
+    "syncrostate": "^0.0.6",
     "tailwindcss": "^4.1.6",
     "y-websocket": "^3.0.0",
     "yjs": "^13.6.27"
