@@ -67,6 +67,8 @@
 	function createLine(id: number, time:string, nick:string, command:string, ...args:string[]){
 		return {id, time, nick, command, args};
 	}
+	// TODO we might want to explicitly break out args[0] into channel.
+	// Probably not worth letting ICR api abstractions bleed into the rest of the application
 
 	
 </script>

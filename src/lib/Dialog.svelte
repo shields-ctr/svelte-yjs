@@ -57,9 +57,10 @@
         {/each}
         <td>
           <select 
-            id={"command_"+line.id}>
+            id={"command_"+line.id}
+            onchange={ (event)=> line.command = event.target.value }>
             {#each commands as command}
-            <option value="command"
+            <option value={command}
               selected={command==line.command}>
               {command}
             </option>
@@ -70,14 +71,16 @@
         {#each channels as channel}
         <td><input type="radio"
             name={"channel_"+line.id}
-            onclick={(event)=>console.log(event)}
+            onchange={(_)=>line.args[0] = channel}
             checked={isReceiver(channel, line)} />
         </td>
         {/each}
         <td>
           <!-- {line.nick} -->
           <input type="text"
-            value={(line.args.length>1) ? line.args.slice(1).join(',') : ''}/>
+            value={(line.args.length>1) ? line.args[1] : ''}
+            oninput={(event)=>line.args[1] = event.target.value}>
+            <!--value={(line.args.length>1) ? line.args.slice(1).join(',') : ''} -->
         </td>
         <!-- <td>{(line.args.length>0) ? line.args[0] : ''}</td> -->
         <!-- <td>{(line.args.length>1) ? line.args.slice(1).join(',') : ''}</td> -->
