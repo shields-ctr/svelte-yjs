@@ -1,3 +1,39 @@
+# Svelte Yjs
+
+We'd like to incorporate collaborative editing capabilities into our application but a remaining hurdle is synchronizing the CRDT structures with the local reactive state; in our case Svelte5.
+
+Curiously, much more demanding UI problems like code editors with full language support have great integration, but relatively more common use cases like replicating the state of a reactive UI don't appear to be well fleshed out yet. In retrospect, most CRDT research grew out of collaborative editors...
+
+Anyways, the main idea is you need to Make CRDT observers and reactive UI proxies keep each other synchronized. I made a half-hearted attempt with Svelte-Loro. It used coarse grained Svelte4 stores and I didn't even try to bridge Loro's delta encoding into Svelte updates... I found some other projects that took a similar approach which I became convinced was wrong because the mismatch in granularity and the inefficiencies that would create- especially for large documents like the ones I want to use. I'm sure there is a path forward since the delta encoding does provide a JSON-Patch like syntax that could be applied to deeply reactive Svelte runes; I just don't want to do that work because it is a rabbit hole which would consume me long after my project deadline has passed.
+
+Luckily this year's Svelte Hackathon featured a project which synchronizes Svelte5 runes with Yjs Documents; [SyncroState](https://syncrostate.pages.dev/) by [beynar](https://github.com/beynar). I haven't fully read the code but I did see fine grained proxies, which I think is the right way to approach this.
+
+Also, the library provides schema definition and input validation features. Very forward thinking of the author; I have wondered for awhile now how CRDT implementors intend to structure and validate these documents. This goes a long way to providing that!
+
+# Running the Example
+
+This is meant to be a representative example for our application; in this case a script for IRC chat bots.
+
+First start the Yjs-WebSocket provider which synchronizes named documents;
+``` console
+npm run wsp
+```
+
+Then spin up the Vite development server which will serve our client apps;
+``` console
+npm run dev
+```
+
+Then point a browser at http:localhost:5173 and duplicate the tab.
+Edits in one window will affect the forms in all other windows!
+
+There is no custom glue code, just a plain old svelte application; all the hassle is taken care of with Yjs and Syncrostate.
+
+# Next steps
+
+I need to think through how documents will be named, and also how to synchronize them with Browser Storage.
+We'll tackle that outside this proof-of-concept example however.
+
 # Notes
 
 - Here is a default WebSocket server for Yjs; https://github.com/yjs/y-websocket-server
@@ -6,8 +42,7 @@
   - https://github.com/yjs/yjs-inspector
   - https://inspector.yjs.dev/
 
-# TODO
-
+<!--# TODO
 - Client
   - [ ] csv upload of a script w/ room name
   - [ ] Have user supply a room name to coordinate documents
@@ -18,7 +53,9 @@
   - 
   - [ ] allow playback edits from central server
       - ie. disabling sent dialog lines
-  
+
+
+
 # Boilerplate for single file svelte site
 
 - Vite
@@ -33,4 +70,4 @@ Install: `npm i`
 
 Dev: `npm run dev`
 
-Build: `npm run build`
+Build: `npm run build`-->
