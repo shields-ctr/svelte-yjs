@@ -4,11 +4,11 @@ We'd like to incorporate collaborative editing capabilities into our application
 
 Curiously, much more demanding UI problems like code editors have great integration, but relatively more common use cases like replicating the state of a reactive UI don't appear to be well fleshed out yet. In retrospect, most CRDT research grew out of collaborative editors...
 
-Anyways, the main idea is you need to make CRDT observers and reactive UI proxies keep each other synchronized. I made a half-hearted attempt with Svelte-Loro. It used coarse grained Svelte4 stores and I didn't even try to bridge Loro's delta encoding into Svelte updates... I found some other projects that took a similar approach which I became convinced was wrong because the mismatch in granularity and the inefficiencies that would create- especially for large documents like the ones I want to use.
+Anyways, the main idea is you need to make CRDT observers and reactive UI proxies keep each others' data synchronized. I made a half-hearted attempt with Svelte-Loro. It used coarse grained Svelte4 stores and I didn't even try to bridge Loro's delta encoding into Svelte updates... I found some other projects that took a similar approach- which I became convinced was wrong because the mismatch in granularity and the inefficiencies that would create- especially for large documents like the ones I want to use.
 
-Luckily this year's Svelte Hackathon featured a project which synchronizes Svelte5 runes with Yjs Documents; [SyncroState](https://syncrostate.pages.dev/) by [beynar](https://github.com/beynar). I haven't fully read the code but I did see fine grained proxies, which I think is the right way to approach this.
+Luckily, this year's Svelte Hackathon featured a project which synchronizes Svelte5 runes with Yjs Documents; [SyncroState](https://syncrostate.pages.dev/) by [beynar](https://github.com/beynar). I haven't fully read the code but I did see fine grained proxies, which I think is the right way to approach this.
 
-Also, the library provides schema definition and input validation features. Very forward thinking of the author; I have wondered for awhile now how CRDT implementors intend to structure and validate these documents. This goes a long way to providing that!
+Also, the library provides schema definition and input validation features. Very forward thinking of the author; I have wondered for awhile now how CRDT implementors intend to structure and validate these documents if they can be used for large swaths of application state! This goes a long way to providing that.
 
 # Running the Example
 
@@ -20,7 +20,8 @@ As a temporary hack I cloned the project and copied its distribution...
 git clone https://github.com/beynar/syncrostate.git
 copy ./syncrostate/package/dist ./svelte-yjs/src/lib/syncrostate
 npm install
-``` -->
+```
+oh, there was a capitalization typo in the installation docs, lol-->
 
 Start the Yjs-WebSocket provider which synchronizes named documents;
 ``` console
@@ -35,7 +36,7 @@ npm run dev
 Then point a browser at http://localhost:5173 and duplicate the tab.
 Edits in one window will affect the forms in all other windows!
 
-There is no custom glue code, just a plain old svelte application; all the hassle is taken care of with Yjs and Syncrostate.
+There is no custom glue code(apart from the SyncroState constructor), just a plain old svelte application; all the hassle is taken care of with Yjs and Syncrostate.
 
 # Next steps
 
